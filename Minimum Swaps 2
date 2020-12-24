@@ -16,13 +16,14 @@ int minimumSwaps(vector<int> arr) {
         if(mp[arr[i]] != arr[i]) {
             ans ++;
             int firstVal = arr[i];
-            arr[i] = i;
+            swap(arr[i], arr[mp[mp[arr[i]]]]);
             mp[arr[i]] = i;
-            arr[mp[mp[arr[i]]]] = firstVal;
-            mp[mp[arr[i]]] = firstVal;
+            mp[arr[mp[mp[arr[i]]]]] = mp[mp[arr[i]]];
         }
         for(int j = 0; j < arr.size(); j ++) cout << mp[arr[j]] << " ";
         cout << endl;
+        for(int j = 0; j < arr.size(); j ++) cout << arr[j] << " ";
+        cout << endl << endl;
     }
     return ans;
 }
