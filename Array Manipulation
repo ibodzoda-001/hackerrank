@@ -3,24 +3,21 @@
 using namespace std;
 
 vector<string> split_string(string);
-map<long, long> mp;
-vector<long>road;
-long maxn = 0, sum = 0;
+vector<pair<long, long> >road;
+long maxn = -1e12, sum = 0;
       
 // Complete the arrayManipulation function below.
 long arrayManipulation(int n, vector<vector<int>> queries) {
     
    for(int i = 0; i < queries.size(); i ++) {
         int a = queries[i][0], b = queries[i][1], k = queries[i][2];
-        mp[a] += k;
-        mp[b + 1] -= k;
-        road.push_back(a);
-        road.push_back(b + 1);
+        road.push_back(make_pair(a, k));
+        road.push_back(make_pair(b + 1, -1 * k));
     }
     sort(road.begin(), road.end());
     
     for(int i = 0; i < road.size(); i ++) {
-        sum += mp[i];
+        sum += road[i].second;
         maxn = max(maxn, sum);
     }
     return maxn;
