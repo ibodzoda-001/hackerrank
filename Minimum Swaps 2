@@ -3,7 +3,8 @@
 using namespace std;
 
 vector<string> split_string(string);
-
+vector<int>v[100005];
+int used[100005] = {0};
 // Complete the minimumSwaps function below.
 int minimumSwaps(vector<int> arr) {
     int ans = 0;
@@ -11,19 +12,24 @@ int minimumSwaps(vector<int> arr) {
     for(int i = 0; i < arr.size(); i ++) {
         arr[i] --;
         mp[arr[i]] = i;
+        v[arr[i]].push_back(i);
     }
     for(int i = 0; i < arr.size(); i ++) {
-        if(mp[arr[i]] != arr[i]) {
-            ans ++;
-            int firstVal = arr[i];
-            swap(arr[i], arr[mp[mp[arr[i]]]]);
-            mp[arr[i]] = i;
-            mp[arr[mp[mp[arr[i]]]]] = mp[mp[arr[i]]];
+        if(used[arr[i]] == 0) {
+            int counter = 0, t = arr[i];
+            while(true) {
+                cout << t << endl;
+                ans ++;
+                used[t] ++;
+                if(v[t].size() > 0 && used[v[t][0]] == 0) {
+                    t = v[t][0];
+                }
+                else {
+                    break;
+                } 
+            }
+            ans += counter - 1;
         }
-        for(int j = 0; j < arr.size(); j ++) cout << mp[arr[j]] << " ";
-        cout << endl;
-        for(int j = 0; j < arr.size(); j ++) cout << arr[j] << " ";
-        cout << endl << endl;
     }
     return ans;
 }
