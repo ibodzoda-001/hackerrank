@@ -6,26 +6,29 @@ using namespace std;
 int sherlockAndAnagrams(string s) {
     int ans = 0;
     for(int i = 0; i < s.size(); i ++) {
-        string s1 = "";
+        map<char, int>mpSubstr;
         for(int j = i; j < s.size(); j ++) {
-            s1 += s[j];
-            for(int k = s.size() - 1; k >= 0; k --) {
-                string s2 = "";
-                for(int l = k; l >= 0; l --) {
-                    s2 += s[l];
-                    if(s2.size() > s1.size() || (i >= l && j <= k)) break;
-                    sort(s1.begin(), s1.end());
-                    sort(s2.begin(), s2.end());
-                    if(s2 == s1) {
-                        cout << i << " " << j << " ::: " << l << " " << k << endl;
-                        ans ++;
-                    }
+            int count = j - i + 1, first, last;
+            first = i + 1;
+            mpSubstr[s[j]] ++;
+            map<char, int>mpCheck;
+            // cout << count << " " << first << endl;
+            for(int k = i + 1; k < s.size(); k ++) {
+                if(count > 0) {
+                    mpCheck[s[k]] ++;
+                    count --;
+                    if(count == 0 && mpCheck == mpSubstr) ans ++;
+                }
+                else if(count == 0) {
+                    mpCheck[s[first]] --;
+                    mpCheck[s[k]] ++;
+                    first ++;
+                    if(mpCheck == mpSubstr) ans ++;
                 }
             }
         }
     }
-    cout << endl;
-    return ans / 2;
+    return ans;
 }
 
 int main()
